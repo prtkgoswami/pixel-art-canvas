@@ -9,15 +9,11 @@ import ExportModal from "./components/ExportModal";
 import {
   DEFAULT_FILE_NAME,
   DEFAULT_PIXEL_SIZE,
+  ExportMode,
   INITIAL_COLOR,
 } from "./components/const";
 
 const OrbitronFont = Orbitron({ subsets: ["latin"] });
-
-export enum ExportMode {
-  DownloadSVG = 1,
-  GenerateSVG,
-}
 
 export type ColorStrings = {
   rgb: string;

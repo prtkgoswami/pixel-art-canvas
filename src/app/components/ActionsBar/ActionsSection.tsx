@@ -1,5 +1,5 @@
-import { ExportModalState, ExportMode } from "@/app/page";
-import { IS_EXPORT_ENABLED } from "../const";
+import { ExportModalState } from "@/app/page";
+import { ExportMode, IS_EXPORT_ENABLED } from "../const";
 
 type ActionsSectionProps = {
   onResetClick: () => void;
