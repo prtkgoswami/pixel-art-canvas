@@ -64,7 +64,7 @@ const SizeSelector = ({
               <input
                 name="row_count"
                 placeholder={`${canvasSize[0]}`}
-                className="w-10 py-2 mr-5 text-center bg-transparent placeholder:text-teal-700 text-teal-500 border-b border-solid border-teal-500 focus:outline-none text-2xl"
+                className="w-10 py-2 mr-5 text-center bg-transparent placeholder:text-teal-700 text-teal-500 border-b border-solid border-teal-500 focus:outline-none text-2xl focus:placeholder:text-transparent"
                 maxLength={2}
                 onChange={handleInputChange}
               />
@@ -76,7 +76,7 @@ const SizeSelector = ({
               <input
                 name="col_count"
                 placeholder={`${canvasSize[1]}`}
-                className="w-10 py-2 text-center bg-transparent placeholder:text-teal-700 text-teal-500 border-b border-solid border-teal-500 focus:outline-none text-2xl"
+                className="w-10 py-2 text-center bg-transparent placeholder:text-teal-700 text-teal-500 border-b border-solid border-teal-500 focus:outline-none text-2xl focus:placeholder:text-transparent"
                 maxLength={2}
                 onChange={handleInputChange}
               />
