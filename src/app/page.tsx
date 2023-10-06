@@ -4,6 +4,7 @@ import { Orbitron } from "next/font/google";
 import { useEffect, useState } from "react";
 import ActionsBar from "./components/ActionsBar";
 import Canvas from "./components/Canvas";
+import ColorSample from "./components/ColorSample";
 import ExportModal from "./components/ExportModal";
 import {
   DEFAULT_FILE_NAME,
@@ -12,6 +13,11 @@ import {
 } from "./components/const";
 
 const OrbitronFont = Orbitron({ subsets: ["latin"] });
+
+export enum ExportMode {
+  DownloadSVG = 1,
+  GenerateSVG,
+}
 
 export type ColorStrings = {
   rgb: string;
@@ -27,6 +33,11 @@ export type ExportItems = {
   fileName?: string;
 };
 
+export type ExportModalState = {
+  shouldShow: boolean;
+  exportMode?: ExportMode;
+};
+
 export default function Home() {
   const [canvasSize, setCanvasSize] = useState<Record<number, number>>([
     32, 32,
@@ -35,7 +46,10 @@ export default function Home() {
   const [activeColor, setActiveColor] = useState<ColorStrings>(INITIAL_COLOR);
   const [shouldReset, setShouldReset] = useState<boolean>(false);
   const [exportItems, setExportItems] = useState<ExportItems>({});
-  const [showExportModal, setShowExportModal] = useState<boolean>(false);
+  const [exportModalState, setExportModalState] = useState<ExportModalState>({
+    shouldShow: false,
+    exportMode: ExportMode.DownloadSVG,
+  });
 
   const createSVG = (
     fileName: string = DEFAULT_FILE_NAME,
@@ -79,7 +93,12 @@ export default function Home() {
       "export_pixel_size"
     ) as HTMLInputElement;
 
-    createSVG(fileName.value, Number(pixelSize.value));
+    const fileNameVal =
+      fileName.value === "" ? DEFAULT_FILE_NAME : fileName.value;
+    const pixelSizeVal =
+      pixelSize.value === "" ? DEFAULT_PIXEL_SIZE : Number(pixelSize.value);
+
+    createSVG(fileNameVal, pixelSizeVal);
   };
 
   useEffect(() => {
@@ -88,7 +107,7 @@ export default function Home() {
 
   return (
     <>
-      <main className="h-screen w-screen flex z-0">
+      <main className="h-full w-screen flex z-0">
         <div className=" flex flex-col py-2 bg-zinc-950 w-3/4">
           <header className="w-full p-5 flex flex-col">
             <h1
@@ -128,17 +147,23 @@ export default function Home() {
           onSizeSelect={setCanvasSize}
           onSelectColor={setActiveColor}
           setShouldReset={setShouldReset}
-          onExportClick={() => setShowExportModal(true)}
-          svgContent={exportItems.stringContent ?? ""}
+          onExportClick={setExportModalState}
+          // svgContent={exportItems.stringContent ?? ""}
         />
       </main>
-      {showExportModal && (
+      {exportModalState.shouldShow && (
         <ExportModal
-          onCloseClick={() => setShowExportModal(false)}
+          onCloseClick={() =>
+            setExportModalState({ ...exportModalState, shouldShow: false })
+          }
           exportItems={exportItems}
           onFormSubmit={handleExportFormSubmit}
+          isDownloadMode={
+            exportModalState.exportMode === ExportMode.DownloadSVG
+          }
         />
       )}
+      <ColorSample activeColor={activeColor} />
     </>
   );
 }
